@@ -131,18 +131,18 @@ router.post('/payments/verify', async (req, res) => {
         console.log('Signature from Razorpay:', razorpay_signature);
 
         if (digest === razorpay_signature) {
-            console.log('✅ Payment signature verified. Updating status...');
+            console.log(' Payment signature verified. Updating status...');
             await s_payment.updatePaymentStatusByOrderId(order_id, 'Completed');
             // await s_order.updateOrderStatus(order_id, 'Confirmed');
 
             return res.json({ message: 'Payment successful and order confirmed' });
         } else {
-            console.warn('❌ Payment signature mismatch!');
+            console.warn(' Payment signature mismatch!');
             await s_payment.updatePaymentStatusByOrderId(order_id, 'Failed');
             return res.status(400).json({ message: 'Payment verification failed' });
         }
     } catch (error) {
-        console.error('🔥 Error verifying Razorpay payment:', error);
+        console.error(' Error verifying Razorpay payment:', error);
         res.status(500).json({ message: 'Internal server error' });
     }
 });
@@ -207,3 +207,4 @@ async function handleRazorpayWebhook(req, res) {
 }
 
 module.exports.handleRazorpayWebhook = handleRazorpayWebhook;
+
